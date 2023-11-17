@@ -17,7 +17,7 @@ const boxSides = {
 
 // # if player1turn then we have #red Color but for player2 we have #blue color
 let isPlayer1Turn: boolean;
-let currentBox;
+let currentBox: any;
 
 // # scores for the players
 //! I wanted to use useState but when re-render happens the previous state will be gone
@@ -213,13 +213,14 @@ class Box {
     if (this.numOfSideSelected == 4) {
       if (isPlayer1Turn) {
         Player.player1Score++;
-        document.getElementById('player1').innerHTML! = Player.player1Score;
+        document.getElementById('player1').innerHTML! =
+          Player.player1Score.toString();
       } else {
         Player.player2Score++;
-        document.getElementById('player2').innerHTML! = Player.player2Score;
+        document.getElementById('player2').innerHTML! =
+          Player.player2Score.toString();
       }
       this.owner = isPlayer1Turn;
-
       return true;
     } else {
       return false;
@@ -277,7 +278,7 @@ function drawLine(
   context.closePath();
 }
 
-function drawCircles(context: CanvasRenderingContext2D, boxArr: Box[][]) {
+function drawCircles(context: CanvasRenderingContext2D) {
   for (let i = 0; i < GRID_SIZE - 1; i++) {
     for (let j = 0; j < GRID_SIZE - 1; j++) {
       drawCircle(context, CELL_SIZE * (i + 1), CELL_SIZE * (j + 1));
@@ -313,7 +314,7 @@ function gameLoop(
     canvasRef.current?.width!,
     canvasRef.current?.height!
   );
-  drawCircles(context, boxArr);
+  drawCircles(context);
   drawBox(context, boxArr);
   requestAnimationFrame(() => gameLoop(context, canvasRef, boxArr));
 }
